@@ -2,17 +2,17 @@
 gsd_state_version: "1.0"
 current_phase: 01
 current_phase_name: Contract + Vertical Slice
-status: executing
-stopped_at: Completed 01-02-PLAN.md
-last_updated: "2026-10-18T09:59:22.026Z"
+status: verifying
+stopped_at: Completed 01-03-PLAN.md
+last_updated: "2026-10-18T10:35:21.783Z"
 last_activity: 2026-10-18
 last_activity_desc: Phase 01 execution started
-state_head: 38db9799f6d7b2cb1210d2a390792aad6f927209
+state_head: 39b9d6cdfc3a607e0104a63a94c9d3e3528ff901
 progress:
   total_phases: 4
   completed_phases: 0
   total_plans: 3
-  completed_plans: 2
+  completed_plans: 3
   percent: 0
 ---
 
@@ -29,7 +29,7 @@ See: .planning/PROJECT.md (updated 2026-10-18)
 
 Phase: 01 (Contract + Vertical Slice) — EXECUTING
 Plan: 3 of 3
-Status: Ready to execute
+Status: Phase complete — ready for verification
 Last activity: 2026-10-18 — Phase 01 execution started
 
 Progress: [░░░░░░░░░░] 0%
@@ -58,6 +58,7 @@ Progress: [░░░░░░░░░░] 0%
 |------|----------|-------|-------|
 | Phase 01 P01 | 20 min | 3 tasks | 12 files |
 | Phase 01 P02 | 15 min | 2 tasks | 7 files |
+| Phase 01 P03 | 27 min | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -77,6 +78,10 @@ Recent decisions affecting current work:
 - [Phase 01]: Schema exhaustion after retry+fallback throws an unusable-reply error rather than the Ollama-down contract line (that line would assert a false fact); the CLI still prints exactly one ERROR line and exits 1
 - [Phase 01]: One batched /api/embed call per ingest (array input probe-verified 768-dim x N) instead of per-chunk loops — faster cold ingest, same contract output
 - [Phase 01]: Test-only global fetch stubs (lib/ollama.test.js, cli.test.js via data: URL import shim) make the retry/fallback, transport-line and usage must-haves executable with zero sockets
+- [Phase 01]: lib/pipeline.js ingest() takes optional displayName so chunks.json stores the uploader's original filename per docs/api.md (was UUID storage-path basename); CLI callers unchanged (Rule 2)
+- [Phase 01]: POST /api/ask maps malformed JSON to 400 {error:invalid JSON body} instead of the 500 model copy (Rule 2)
+- [Phase 01]: UI-SPEC error rows E3/E8/E9 mirrored verbatim in public/app.js; server stays copy owner; model-failure row doubles as fetch-unreachable fallback
+- [Phase 01]: Page-cap verification happens after parse and before ingest (double parse for fresh PDFs; sha256 cache avoids re-embed on repeated uploads)
 
 ### Pending Todos
 
@@ -95,6 +100,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-10-18T09:59:21.998Z
-Stopped at: Completed 01-02-PLAN.md
+Last session: 2026-10-18T10:35:21.756Z
+Stopped at: Completed 01-03-PLAN.md
 Resume file: None

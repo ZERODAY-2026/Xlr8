@@ -8,9 +8,9 @@ Hard feature freeze at 17:30.
 
 ### Ingestion
 
-- [ ] **ING-01**: User can upload a PDF or TXT legal document through the browser UI
-- [ ] **ING-02**: User can ask a question in plain English about the uploaded document
-- [ ] **ING-03**: Extraction is page-aware so every citation can name its page
+- [x] **ING-01**: User can upload a PDF or TXT legal document through the browser UI
+- [x] **ING-02**: User can ask a question in plain English about the uploaded document
+- [x] **ING-03**: Extraction is page-aware so every citation can name its page
 
 ### Understanding
 
@@ -32,7 +32,7 @@ Hard feature freeze at 17:30.
 
 ### Privacy
 
-- [ ] **PRV-01**: The process opens no socket other than `127.0.0.1:11434` during document processing
+- [x] **PRV-01**: The process opens no socket other than `127.0.0.1:11434` during document processing
 - [ ] **PRV-02**: A reproducible script records connection-monitoring evidence to `evidence/privacy-report.md`
 - [ ] **PRV-03**: No document content reaches temp folders, telemetry, logs or update checks
 - [ ] **PRV-04**: Ollama update checks are disabled and documented as the one setup-time network call
@@ -92,11 +92,11 @@ Stated honestly, per the guide's instruction to "state your scope honestly and t
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| ING-01 | Phase 1 | Pending |
-| ING-02 | Phase 1 | Pending |
-| ING-03 | Phase 1 | Pending |
+| ING-01 | Phase 1 | Complete |
+| ING-02 | Phase 1 | Complete |
+| ING-03 | Phase 1 | Complete |
 | GRD-01 | Phase 1 | Complete |
-| PRV-01 | Phase 1 | Pending |
+| PRV-01 | Phase 1 | Complete |
 | MDL-01 | Phase 1 | Complete |
 | MDL-02 | Phase 1 | Complete |
 | UND-01 | Phase 2 | Pending |
