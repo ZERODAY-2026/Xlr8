@@ -20,6 +20,7 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; } /* UI-BLK-01: author display rules beat the UA [hidden] rule */
 
 html, body { margin: 0; }
 
