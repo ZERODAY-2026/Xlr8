@@ -1,5 +1,30 @@
 // public/app.js — the E1–E10 upload state machine (01-UI-SPEC contract) plus the browser
 // ask slice (quick task browser-ask-ui; D-04 CLI-only lock intentionally lifted). Vanilla JS, no deps.
+// Suggestion chips shown under the ask input
+const SUGGESTIONS = [
+  'what notice must be given to cancel?',
+  'what are my rights under this agreement?',
+  'what penalties or fees are specified?',
+  'critical things I need to be aware of',
+];
+
+function renderSuggestions() {
+  const container = document.getElementById('suggestions');
+  if (!container) return;
+  container.innerHTML = '';
+  for (const q of SUGGESTIONS) {
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'suggestion-chip';
+    btn.textContent = q;
+    btn.addEventListener('click', () => {
+      questionInput.value = q;
+      questionInput.focus();
+    });
+    container.append(btn);
+  }
+}
+
 const $ = (id) => document.getElementById(id);
 
 const banner = $('banner');
@@ -170,6 +195,7 @@ function render(doc) {
   }
   list.hidden = false;
   askSection.hidden = false; // ask slice: the form exists only with a document loaded
+  renderSuggestions();
 }
 
 removeBtn.addEventListener('click', () => {
@@ -261,6 +287,17 @@ async function ask(question) {
   answer.hidden = false;
 }
 
+function copyQuote(btn, text) {
+  navigator.clipboard.writeText(text).then(() => {
+    btn.classList.add('copied');
+    btn.querySelector('svg').innerHTML = '<path d="M4.5 11.5 9 16 15.5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>';
+    setTimeout(() => {
+      btn.classList.remove('copied');
+      btn.querySelector('svg').innerHTML = '<path d="M4.5 4 8.5 8 15.5 1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M10.5 1 10.5 7 7 10.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>';
+    }, 1200);
+  }).catch(() => {});
+}
+
 // One block per verified claim: page chip + verbatim quote (+ the claim's one-liner when
 // present). A single verified claim renders exactly as the pre-multi-claim panel did.
 function renderClaims(claims) {
@@ -283,6 +320,14 @@ function renderClaims(claims) {
       plain.textContent = c.plain;
       col.append(plain);
     }
+    // Copy button
+    const copyBtn = document.createElement('button');
+    copyBtn.type = 'button';
+    copyBtn.className = 'copy-btn';
+    copyBtn.setAttribute('aria-label', 'Copy quote to clipboard');
+    copyBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 4 8.5 8 15.5 1" /><path d="M10.5 1 10.5 7 7 10.5" /></svg>';
+    copyBtn.addEventListener('click', () => copyQuote(copyBtn, c.quote));
+    col.append(copyBtn);
     block.append(chip, col);
     answerClaims.append(block);
   }
