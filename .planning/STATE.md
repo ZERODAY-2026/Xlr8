@@ -23,7 +23,7 @@ progress:
 See: .planning/PROJECT.md (updated 2026-10-18)
 
 **Core value:** Every claim in every answer maps to a verbatim quote from the uploaded document that a judge can check — and when the document is silent, the tool says so instead of guessing.
-**Current focus:** Phase 1 — Contract + Vertical Slice (checkpoint 12:30 IST)
+**Current focus:** Phase 1 — Contract + Vertical Slice (checkpoint 13:30 IST — Stage 1 evaluation also begins 13:30 IST)
 
 ## Current Position
 
@@ -60,7 +60,7 @@ Progress: [░░░░░░░░░░] 0%
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
-- [Roadmap]: 4 phases (coarse) aligned 1:1 to tasks/plan.md checkpoints 12:30 / 15:00 / 17:30 / 20:00 — Phase 0 contract folded into Phase 1
+- [Roadmap]: 4 phases (coarse) aligned 1:1 to tasks/plan.md checkpoints 13:30 / 15:00 / 17:30 / 20:00 — Phase 0 contract folded into Phase 1
 - [Roadmap]: Citation verifier (GRD-01) + localhost-only proof (PRV-01) land in Phase 1; privacy evidence artifact (PRV-02..04) + safety-capped criteria 2/3 land by Phase 2 checkpoint 15:00 so failures have mitigation time
 - [Roadmap]: Nothing scores after 17:30; Phase 4 is docs/evidence/recording/submission only
 

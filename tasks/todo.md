@@ -5,7 +5,7 @@ Legend: `[ ]` open · `[~]` in progress · `[x]` done. Checkpoints are hard stop
 ## Phase 0 — Contract (by 10:30)
 - [ ] Task 0: API contract in `docs/api.md`; `git init`, MIT LICENSE, `.gitignore`, pinned `package.json` — **all three**
 
-## Phase 1 — Vertical slice (by 12:30)
+## Phase 1 — Vertical slice (by 13:30)
 - [ ] Task 1 (P1): `lib/parse.js` — pdfjs-dist page-aware text + TXT path
 - [ ] Task 2 (P1): `lib/chunk.js`, `lib/embed.js`, `chunks.json`, cosine retrieval
 - [ ] Task 3 (P1): `lib/ollama.js` — chat, `format:"json"`, fallback to `gemma3:4b`
@@ -13,7 +13,7 @@ Legend: `[ ]` open · `[~]` in progress · `[x]` done. Checkpoints are hard stop
 - [ ] Task 5 (P3): upload + chunk list with page numbers
 - [ ] Gather 3–5 sample documents + licences (P2, during Phase 1)
 
-### Checkpoint 1 (12:30)
+### Checkpoint 1 (13:30) — Stage 1 evaluation also begins 13:30 IST
 - [ ] CLI ask → answer + quote + page works end-to-end
 - [ ] Only localhost connections observed
 - [ ] Human review before Phase 2

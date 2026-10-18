@@ -2,14 +2,14 @@
 
 ## Overview
 
-Four phases cover the whole day, reconciled 1:1 with the human working plan in `tasks/plan.md` and `tasks/todo.md` — each GSD phase ends at one of that plan's hard timed checkpoints, so the team executes against a single set of deadlines. Phase 1 folds the 10:00–10:30 contract task into the vertical slice and ends at Checkpoint 1 (12:30): a working offline slice with the citation verifier as a hard gate. Phase 2 (Checkpoint 2, 15:00) lands the three safety-capped rubric criteria — grounding display, uncertainty/refusal, and privacy evidence — plus the browser Q&A demo. Phase 3 (Checkpoint 3, 17:30 hard freeze) lands everything else that scores: robustness, structured extraction, benchmarks, tests. Phase 4 (Checkpoint 4, 20:00 fresh-clone run-through; submit by 20:30) is documentation, evidence capture, recording and submission — nothing new is built after the freeze. P1 (backend), P2 (privacy evidence, docs, tests) and P3 (browser UI) work in parallel inside every phase.
+Four phases cover the whole day, reconciled 1:1 with the human working plan in `tasks/plan.md` and `tasks/todo.md` — each GSD phase ends at one of that plan's hard timed checkpoints, so the team executes against a single set of deadlines. Phase 1 folds the 10:00–10:30 contract task into the vertical slice and ends at Checkpoint 1 (13:30 — Stage 1 evaluation also begins at 13:30 IST): a working offline slice with the citation verifier as a hard gate. Phase 2 (Checkpoint 2, 15:00) lands the three safety-capped rubric criteria — grounding display, uncertainty/refusal, and privacy evidence — plus the browser Q&A demo. Phase 3 (Checkpoint 3, 17:30 hard freeze) lands everything else that scores: robustness, structured extraction, benchmarks, tests. Phase 4 (Checkpoint 4, 20:00 fresh-clone run-through; submit by 20:30) is documentation, evidence capture, recording and submission — nothing new is built after the freeze. P1 (backend), P2 (privacy evidence, docs, tests) and P3 (browser UI) work in parallel inside every phase.
 
 **Checkpoint reconciliation (GSD phase ↔ tasks/plan.md):**
 
 | GSD Phase | tasks/plan.md | Window | Checkpoint |
 |-----------|---------------|--------|------------|
-| 1. Contract + Vertical Slice | Phase 0 + Phase 1 | 10:00–12:30 | 12:30 — CLI end-to-end, localhost-only |
-| 2. Scored Behaviour | Phase 2 | 12:30–15:00 | 15:00 — browser demo, privacy evidence, refusals |
+| 1. Contract + Vertical Slice | Phase 0 + Phase 1 | 10:00–13:30 | 13:30 — CLI end-to-end, localhost-only; Stage 1 evaluation begins |
+| 2. Scored Behaviour | Phase 2 | 13:30–15:00 | 15:00 — browser demo, privacy evidence, refusals |
 | 3. Robustness & Evidence | Phase 3 | 15:00–17:30 | 17:30 — hard feature freeze |
 | 4. Ship | Phase 4 | 17:30–20:30 | 20:00 fresh-clone run; submit by 20:30 |
 
@@ -30,7 +30,7 @@ Four phases cover the whole day, reconciled 1:1 with the human working plan in `
 **Goal**: A working offline vertical slice exists: from a fresh checkout, a PDF/TXT document is ingested page-aware and a question is answered with a verified verbatim citation — proving the hard grounding gate before anything else is built.
 **Mode**: mvp
 **Depends on**: Nothing (first phase)
-**Checkpoint**: 12:30 IST (Checkpoint 1 in tasks/plan.md) — human review before proceeding
+**Checkpoint**: 13:30 IST (Checkpoint 1 in tasks/plan.md; Stage 1 evaluation also begins 13:30 IST) — human review before proceeding
 **Roles**: P1 — parse/chunk/embed/Ollama client/verifier + `POST /api/ask` CLI & API; P2 — API contract (`docs/api.md`), git/LICENSE/.gitignore/pinned `package.json`, sample documents + licences (G4), localhost-only check; P3 — upload shell + chunk list with page numbers
 **Requirements**: ING-01, ING-02, ING-03, GRD-01, PRV-01, MDL-01, MDL-02
 **Success Criteria** (what must be TRUE):

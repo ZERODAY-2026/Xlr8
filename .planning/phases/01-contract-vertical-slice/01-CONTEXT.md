@@ -22,7 +22,7 @@ A working offline vertical slice exists: from a fresh checkout, a PDF/TXT docume
 - **D-04:** Strict roadmap split — Phase 1 browser = upload shell + chunk list with page numbers; Q&A happens at the CLI. P3 builds Phase 2's full Q&A UI once its UI-SPEC exists, avoiding rework. — **Reversibility:** costly — pulling Q&A UI forward before the Phase 2 UI contract exists means duplicated and reshaped work.
 
 ### Checkpoint
-- **D-05:** Checkpoint 1 is **one clean commit before 13:00 IST** (organizer confirmed via user, 2026-10-18) — not a formal demo gate. This supersedes the 12:30 demo-gate reading in ROADMAP.md; planning targets 13:00 IST.
+- **D-05:** Checkpoint 1 is **one clean commit before 13:30 IST**, and **Stage 1 evaluation begins at 13:30 IST** (organizer update via user, 2026-10-18) — the commit must land before evaluation starts. Supersedes the earlier 13:00 reading and the original 12:30 demo-gate reading in ROADMAP.md; planning targets 13:30 IST.
 
 ### the agent's Discretion
 - Proof ritual at Checkpoint 1: casual connection spot-check during a full run (e.g. `Get-NetTCPConnection`); the formal `scripts/privacy-evidence.ps1` + `evidence/privacy-report.md` stays Phase 2 per roadmap.
@@ -42,7 +42,7 @@ A working offline vertical slice exists: from a fresh checkout, a PDF/TXT docume
 - `.planning/ROADMAP.md` § Phase 1 — goal, roles (P1/P2/P3), success criteria 1–4
 
 ### Human working plan (reconciled 1:1 with the roadmap)
-- `tasks/plan.md` — timed checkpoints; note Checkpoint 1 shifted to 13:00 IST per organizer
+- `tasks/plan.md` — timed checkpoints; note Checkpoint 1 shifted to 13:30 IST per organizer (Stage 1 evaluation begins 13:30)
 - `tasks/todo.md` — role task breakdown this phase executes against
 
 ### Codebase maps (pre-scanned)
@@ -72,7 +72,7 @@ No external ADRs/specs beyond the above — requirements fully captured in REQUI
 <specifics>
 ## Specific Ideas
 
-- Organizer's Checkpoint 1 requirement: one commit before 13:00 IST (user confirmed with organizer directly)
+- Organizer's Checkpoint 1 requirement: one commit before 13:30 IST; Stage 1 evaluation begins at 13:30 IST (user confirmed with organizer directly, updated 2026-10-18)
 - Fixtures should feel relatable to an Indian hackathon audience while staying plain English
 
 </specifics>

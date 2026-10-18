@@ -47,7 +47,7 @@
 | Build it, don't show it | Question box behind hidden flag | |
 
 **User's choice:** Strict roadmap split (Recommended)
-**Notes:** User initially pushed back that checkpoints were being over-thought; clarified with organizer that Checkpoint 1 only requires one commit before 13:00 IST. First attempt at this question returned Unanswered; retried and answered.
+**Notes:** User initially pushed back that checkpoints were being over-thought; clarified with organizer that Checkpoint 1 only requires one commit before 13:00 IST. First attempt at this question returned Unanswered; retried and answered. **Update 2026-10-18 (organizer, via user):** Checkpoint 1 shifted to 13:30 IST, and Stage 1 evaluation also begins at 13:30 IST.
 
 ---
 

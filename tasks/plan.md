@@ -62,18 +62,18 @@ question → cosine top-k → gemma3n:e2b (JSON mode) → {quote, plain, kind, t
       `POST /api/ask`, `GET /api/doc/:id`) in `docs/api.md`; `git init`, MIT `LICENSE`,
       `.gitignore` (no `node_modules`, no evidence temp files), pinned `package.json`.
 
-### Phase 1 — Vertical slice (10:30–12:30)
+### Phase 1 — Vertical slice (10:30–13:30)
 - [ ] Task 1 (P1): `lib/parse.js` — pdfjs-dist → `[{page, text}]`; TXT path too.
 - [ ] Task 2 (P1): `lib/chunk.js` + `lib/embed.js` → `chunks.json`; cosine retrieval.
 - [ ] Task 3 (P1): `lib/ollama.js` — chat with `format:"json"`, retries, model fallback.
 - [ ] Task 4 (P1): `lib/verify.js` — quote-exists gate + tier normalisation.
 - [ ] Task 5 (P3): upload + render chunk list with page numbers.
 
-**Checkpoint 1 (12:30):** CLI: `node cli.js ask sample.pdf "what is the notice period?"`
+**Checkpoint 1 (13:30):** CLI: `node cli.js ask sample.pdf "what is the notice period?"`
 → plain-language answer + verbatim quote + page, no network outside localhost.
-- [ ] Review with a human before proceeding.
+- [ ] Review with a human before proceeding. Stage 1 evaluation begins 13:30 IST — land the clean commit before it.
 
-### Phase 2 — Scored behaviour (12:30–15:00)
+### Phase 2 — Scored behaviour (13:30–15:00)
 - [ ] Task 6 (P1): answer schema with `tier`, `kind` (obligation/right/penalty/
       termination/date/party), `escalate`, `confidence_basis`; prompt that forbids
       verdicts and requires `not_in_document` when unsupported.
