@@ -1,0 +1,19 @@
+# Dependencies
+node_modules/
+
+# Local agent tooling — not part of the project
+.opencode/
+
+# Derived document data — regenerated locally, contains document text
+chunks.json
+data/
+uploads/
+
+# Evidence temp captures (the reports themselves are committed)
+evidence/*.tmp
+evidence/*.log
+
+# OS noise
+Thumbs.db
+Desktop.ini
+.DS_Store
