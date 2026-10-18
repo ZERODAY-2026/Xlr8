@@ -44,7 +44,7 @@ Four phases cover the whole day, reconciled 1:1 with the human working plan in `
 
 Plans:
 **Wave 1**
-- [ ] 01-01-PLAN.md — Contract, fixtures, and page-aware pipeline core (verifier hard gate)
+- [x] 01-01-PLAN.md — Contract, fixtures, and page-aware pipeline core (verifier hard gate)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 - [ ] 01-02-PLAN.md — CLI tracer: local ask with verified verbatim citation, localhost-only proof
@@ -109,7 +109,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Contract + Vertical Slice | 0/TBD | Not started | - |
+| 1. Contract + Vertical Slice | 1/3 | In Progress | - |
 | 2. Scored Behaviour | 0/TBD | Not started | - |
 | 3. Robustness & Evidence | 0/TBD | Not started | - |
 | 4. Ship | 0/TBD | Not started | - |
