@@ -82,4 +82,37 @@ Stated honestly, per the guide's instruction to "state your scope honestly and t
 
 ## Traceability
 
-Requirement-to-phase mapping is filled in by the roadmap. See `.planning/ROADMAP.md`.
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| ING-01 | Phase 1 | Pending |
+| ING-02 | Phase 1 | Pending |
+| ING-03 | Phase 1 | Pending |
+| GRD-01 | Phase 1 | Pending |
+| PRV-01 | Phase 1 | Pending |
+| MDL-01 | Phase 1 | Pending |
+| MDL-02 | Phase 1 | Pending |
+| UND-01 | Phase 2 | Pending |
+| GRD-02 | Phase 2 | Pending |
+| GRD-03 | Phase 2 | Pending |
+| UNC-01 | Phase 2 | Pending |
+| UNC-02 | Phase 2 | Pending |
+| UNC-03 | Phase 2 | Pending |
+| UNC-04 | Phase 2 | Pending |
+| PRV-02 | Phase 2 | Pending |
+| PRV-03 | Phase 2 | Pending |
+| PRV-04 | Phase 2 | Pending |
+| UIX-01 | Phase 2 | Pending |
+| UIX-02 | Phase 2 | Pending |
+| UND-02 | Phase 3 | Pending |
+| ROB-01 | Phase 3 | Pending |
+| ROB-02 | Phase 3 | Pending |
+| MDL-03 | Phase 3 | Pending |
+| MDL-04 | Phase 4 | Pending |
+| DOC-01 | Phase 4 | Pending |
+| DOC-02 | Phase 4 | Pending |
+| DOC-03 | Phase 4 | Pending |
+| DOC-04 | Phase 4 | Pending |
+| DOC-05 | Phase 4 | Pending |
+| DOC-06 | Phase 4 | Pending |
+
+Mapped: 30/30 — no orphans, no duplicates. See `.planning/ROADMAP.md`.
