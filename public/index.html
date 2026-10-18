@@ -68,7 +68,13 @@
           <input type="text" id="question" class="ask-input" name="question" autocomplete="off" required placeholder="Ask about this document…">
           <button type="submit" id="ask-btn" class="btn-neutral">Ask</button>
         </div>
-        <div id="suggestions" class="suggestions" aria-label="Example questions"></div>
+        <div class="ask-options">
+          <div id="suggestions" class="suggestions" aria-label="Example questions"></div>
+          <select id="lang-select" class="lang-select" aria-label="Answer language">
+            <option value="en">English</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+          </select>
+        </div>
       </form>
       <p id="ask-status" class="loading" role="status" hidden></p>
       <div id="answer" class="answer" hidden>

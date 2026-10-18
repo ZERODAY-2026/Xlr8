@@ -254,9 +254,11 @@ async function ask(question) {
   busy = true;
   clearBanner();
   answer.hidden = true; // the answer region is hidden until this ask is answered
-  askBtn.disabled = true; // CPU inference 30–60s — disabled button, fetch never aborted
+  askBtn.disabled = true; // CPU inference 30–60s — button disabled, fetch never aborted
   askStatus.textContent = THINKING_COPY;
   askStatus.hidden = false;
+
+  const lang = document.getElementById('lang-select').value; // 'en' or 'hi'
 
   let res = null;
   let body = null;
@@ -264,7 +266,7 @@ async function ask(question) {
     res = await fetch('/api/ask', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question }),
+      body: JSON.stringify({ question, lang }),
     });
     body = await res.json().catch(() => null);
   } catch {

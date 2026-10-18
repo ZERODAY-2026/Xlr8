@@ -92,7 +92,7 @@ app.get('/api/doc/:id', async (req, res) => {
 app.post('/api/ask', express.json(), async (req, res) => {
   let result;
   try {
-    result = await askStored(req.body && req.body.question);
+    result = await askStored(req.body && req.body.question, req.body && req.body.lang);
   } catch (err) {
     if (err && err.message === 'no document') return res.status(400).json({ error: 'no document' });
     if (err && err.usage) return res.status(400).json({ error: err.message });
