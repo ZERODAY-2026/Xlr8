@@ -28,8 +28,7 @@ const askBtn = $('ask-btn');
 const askStatus = $('ask-status');
 const answer = $('answer');
 const answerText = $('answer-text');
-const answerPage = $('answer-page');
-const answerQuoteText = $('answer-quote-text');
+const answerClaims = $('answer-claims');
 
 // Copywriting Contract rows, verbatim. The server sends the error rows in its JSON body
 // (server.js owns them for the API contract); the client mirrors them here and uses the
@@ -257,7 +256,34 @@ async function ask(question) {
     return;
   }
   answerText.textContent = body.answer; // plain text only — no HTML from the model
-  answerQuoteText.textContent = body.quote;
-  answerPage.textContent = `p. ${body.page}`; // same chrome page-chip style as the list
+  // Additive claims array; a legacy server reply without it renders as one claim.
+  renderClaims(Array.isArray(body.claims) && body.claims.length ? body.claims : [body]);
   answer.hidden = false;
+}
+
+// One block per verified claim: page chip + verbatim quote (+ the claim's one-liner when
+// present). A single verified claim renders exactly as the pre-multi-claim panel did.
+function renderClaims(claims) {
+  answerClaims.replaceChildren();
+  for (const c of claims) {
+    const block = document.createElement('blockquote');
+    block.className = 'chunk-card answer-quote';
+    const chip = document.createElement('span');
+    chip.className = 'page-chip';
+    chip.textContent = `p. ${c.page}`; // same chrome page-chip style as the list
+    const col = document.createElement('div');
+    col.className = 'answer-claim-body';
+    const quote = document.createElement('p');
+    quote.className = 'chunk-text';
+    quote.textContent = c.quote;
+    col.append(quote);
+    if (typeof c.plain === 'string' && c.plain.trim() !== '') {
+      const plain = document.createElement('p');
+      plain.className = 'claim-plain';
+      plain.textContent = c.plain;
+      col.append(plain);
+    }
+    block.append(chip, col);
+    answerClaims.append(block);
+  }
 }

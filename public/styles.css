@@ -345,3 +345,17 @@ body {
 
 /* The quote blockquote reuses the chunk-card chrome (chip + verbatim text) */
 .answer-quote { margin: 0; }
+
+/* Multi-claim answers: one quote block per verified claim, spaced by the md token */
+.answer-claims { display: flex; flex-direction: column; gap: var(--space-md); }
+.answer-claim-body { flex: 1; min-width: 0; }
+
+/* The claim's optional one-liner: muted label-scale text under the verbatim quote */
+.claim-plain {
+  margin: var(--space-xs) 0 0;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}

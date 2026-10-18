@@ -50,6 +50,7 @@ test('app.js drives the ask flow against the local API', () => {
   assert.ok(js.includes('/api/ask'), 'fetches POST /api/ask');
   assert.ok(js.includes('Thinking locally…'), 'ask loading status verbatim');
   assert.ok(js.includes('question'), 'submits the question field');
+  assert.ok(js.includes("createElement('blockquote')"), 'each verified claim renders in a blockquote');
 });
 
 test('index.html carries the ask form and answer region', () => {
@@ -59,8 +60,8 @@ test('index.html carries the ask form and answer region', () => {
   assert.ok(html.includes('id="question"'), 'question input present');
   assert.ok(html.includes('id="ask-btn"'), 'Ask button present');
   assert.ok(html.includes('id="answer"'), 'answer region present');
-  assert.ok(html.includes('<blockquote'), 'quote renders in a blockquote');
-  assert.ok(html.includes('id="answer-page"'), 'page chip slot present');
+  assert.ok(html.includes('id="answer-text"'), 'answer paragraph present');
+  assert.ok(html.includes('id="answer-claims"'), 'multi-claim container present');
 });
 
 test('styles.css carries the UI-SPEC design tokens', () => {
