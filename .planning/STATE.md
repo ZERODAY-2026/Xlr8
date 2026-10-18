@@ -60,6 +60,7 @@ Progress: [░░░░░░░░░░] 0%
 | Phase 01 P02 | 15 min | 2 tasks | 7 files |
 | Phase 01 P03 | 27 min | 2 tasks | 8 files |
 | quick browser-ask-ui | ~25 min | 3 tasks | 4 files |
+| quick multi-claim-answers | ~30 min | 5 tasks | 9 files |
 
 ## Accumulated Context
 
