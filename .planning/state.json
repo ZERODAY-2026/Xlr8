@@ -6,7 +6,7 @@
     {
       "number": "1",
       "name": "Contract + Vertical Slice",
-      "status": "pending"
+      "status": "in_progress"
     },
     {
       "number": "2",
@@ -29,5 +29,5 @@
     "label": "Advance to the next step",
     "reason": "Phase 1 of 4 · 0% · executing"
   },
-  "updated_at": "2026-10-18T09:38:34.334Z"
+  "updated_at": "2026-10-18T09:59:07.798Z"
 }
