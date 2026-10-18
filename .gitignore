@@ -13,6 +13,9 @@ uploads/
 evidence/*.tmp
 evidence/*.log
 
+# Reference material — organizer's copyrighted guide, kept local only
+reference/
+
 # OS noise
 Thumbs.db
 Desktop.ini
