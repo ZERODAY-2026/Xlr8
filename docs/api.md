@@ -50,7 +50,10 @@ Phase-1 fields (what the CLI and `POST /api/ask` return on a verified answer):
 {
   "answer": "plain-language explanation of the document's text",
   "quote": "verbatim text from a chunk of the document",
-  "page": 1
+  "page": 1,
+  "claims": [
+    { "quote": "verbatim text from a chunk of the document", "page": 1, "plain": "one short sentence" }
+  ]
 }
 ```
 
@@ -60,6 +63,12 @@ Phase-1 fields (what the CLI and `POST /api/ask` return on a verified answer):
   chunk. Quotes that fail the gate are dropped and reported as unverifiable — never
   fuzzy-matched, never displayed.
 - `page` — the `page` of the earliest chunk whose text contains the verified quote.
+- `claims` — **additive, optional.** The verified per-clause quotes for a broad question,
+  most important first (2–5 on a good reply, one object on a narrow question). Each entry
+  is `{ "quote", "page", "plain" }` where `plain` is an optional one-sentence summary;
+  `quote`/`page` above mirror `claims[0]`. A consumer that ignores `claims` sees exactly
+  the Phase-1 object. Every claim passes the same `lib/verify.js` gate — unverifiable
+  claims are dropped, and when none survive the response is the unverifiable shape below.
 
 **Reserved field names — reserved, lands Phase 2** (listed now so Phase 2 extends the
 object instead of reshaping it):
@@ -93,7 +102,8 @@ All routes on `http://127.0.0.1:3000`.
 - JSON body: `{ "question": "what is the notice period?" }`
 - Uses the most recently ingested document; 400 `{ "error": … }` when no document has
   been ingested
-- **Response (verified):** `{ "answer": …, "quote": …, "page": … }`
+- **Response (verified):** `{ "answer": …, "quote": …, "page": …, "claims": [ { "quote": …, "page": …, "plain": … } ] }`
+  — `claims` is additive/optional; `quote`/`page` mirror `claims[0]`
 - **Response (gate rejected the quote):** `{ "unverifiable": true, "reason": "quote not found in source" }`
 - **400** `{ "error": "no document ingested" }` when no document is loaded
 
