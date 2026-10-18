@@ -1,5 +1,5 @@
-// public/app.js — the E1–E10 upload state machine (01-UI-SPEC contract; D-04 scope lock:
-// upload shell + page-cited chunk list ONLY — no Q&A UI this phase). Vanilla JS, no deps.
+// public/app.js — the E1–E10 upload state machine (01-UI-SPEC contract) plus the browser
+// ask slice (quick task browser-ask-ui; D-04 CLI-only lock intentionally lifted). Vanilla JS, no deps.
 const $ = (id) => document.getElementById(id);
 
 const banner = $('banner');
@@ -21,6 +21,15 @@ const dialog = $('remove-dialog');
 const dialogFilename = $('dialog-filename');
 const confirmRemove = $('confirm-remove');
 const cancelRemove = $('cancel-remove');
+const askSection = $('ask');
+const askForm = $('ask-form');
+const questionInput = $('question');
+const askBtn = $('ask-btn');
+const askStatus = $('ask-status');
+const answer = $('answer');
+const answerText = $('answer-text');
+const answerPage = $('answer-page');
+const answerQuoteText = $('answer-quote-text');
 
 // Copywriting Contract rows, verbatim. The server sends the error rows in its JSON body
 // (server.js owns them for the API contract); the client mirrors them here and uses the
@@ -30,6 +39,8 @@ const ERR_TYPE = 'That file type is not supported. Try a PDF or plain-text (.txt
 const ERR_MODEL =
   'Processing failed on the local model. Check that Ollama is running (ollama serve), then upload again.';
 const LOADING_COPY = 'Extracting pages → chunking → embedding locally. This can take a moment on CPU.';
+// Browser ask slice: CPU inference takes 30–60s — button disabled + status, never aborted.
+const THINKING_COPY = 'Thinking locally…';
 
 let busy = false; // E2: one upload at a time; CTA disabled for the whole in-flight period
 let current = null; // { docId, filename, chunks } — the single-document session
@@ -159,6 +170,7 @@ function render(doc) {
     list.append(row);
   }
   list.hidden = false;
+  askSection.hidden = false; // ask slice: the form exists only with a document loaded
 }
 
 removeBtn.addEventListener('click', () => {
@@ -175,6 +187,9 @@ confirmRemove.addEventListener('click', () => {
   list.hidden = true;
   list.replaceChildren();
   noChunks.hidden = true;
+  askSection.hidden = true; // ask slice: no document → no ask form, no stale answer
+  answer.hidden = true;
+  questionInput.value = '';
   fileInput.value = '';
   chosen.hidden = true;
   chosen.textContent = '';
@@ -199,3 +214,50 @@ dropzone.addEventListener('drop', (e) => {
   fileInput.files = dt.files;
   fileInput.dispatchEvent(new Event('change'));
 });
+
+// Browser ask slice — POST /api/ask against the most recently ingested document.
+// Shares `busy` with upload: one in-flight request at a time, no session swap mid-ask.
+askForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  if (busy) return;
+  const question = questionInput.value.trim();
+  if (!question) return;
+  ask(question);
+});
+
+async function ask(question) {
+  busy = true;
+  clearBanner();
+  answer.hidden = true; // the answer region is hidden until this ask is answered
+  askBtn.disabled = true; // CPU inference 30–60s — disabled button, fetch never aborted
+  askStatus.textContent = THINKING_COPY;
+  askStatus.hidden = false;
+
+  let res = null;
+  let body = null;
+  try {
+    res = await fetch('/api/ask', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ question }),
+    });
+    body = await res.json().catch(() => null);
+  } catch {
+    res = null; // server unreachable — fall through to the model-failure row
+  }
+
+  askStatus.hidden = true;
+  askBtn.disabled = false;
+  busy = false;
+
+  if (!res || !res.ok || body.unverifiable || !body.answer) {
+    // Error and unverifiable-quote paths both land in the banner; the verified
+    // quote is the only quote this UI will ever render.
+    showBanner((body && (body.error || body.reason)) || ERR_MODEL);
+    return;
+  }
+  answerText.textContent = body.answer; // plain text only — no HTML from the model
+  answerQuoteText.textContent = body.quote;
+  answerPage.textContent = `p. ${body.page}`; // same chrome page-chip style as the list
+  answer.hidden = false;
+}

@@ -58,6 +58,26 @@
 
     <!-- E10: verbatim no-chunks message -->
     <p id="no-chunks" class="no-chunks" hidden>No text chunks were extracted. The file may be scanned images — try a text-based PDF or a .txt file.</p>
+
+    <!-- Browser Q&A slice (quick task browser-ask-ui): ask form + answer panel.
+         Phase-2 polish (tier badges, refusal copy) stays out. -->
+    <section id="ask" class="card ask" hidden>
+      <form id="ask-form" class="ask-form">
+        <label class="ask-label" for="question">Ask about this document</label>
+        <div class="ask-row">
+          <input type="text" id="question" class="ask-input" name="question" autocomplete="off" required>
+          <button type="submit" id="ask-btn" class="btn-neutral">Ask</button>
+        </div>
+      </form>
+      <p id="ask-status" class="loading" role="status" hidden></p>
+      <div id="answer" class="answer" hidden>
+        <p id="answer-text" class="body"></p>
+        <blockquote id="answer-quote" class="chunk-card answer-quote">
+          <span id="answer-page" class="page-chip"></span>
+          <p id="answer-quote-text" class="chunk-text"></p>
+        </blockquote>
+      </div>
+    </section>
   </div>
 
   <!-- E3 populated: verbatim destructive confirmation -->
