@@ -131,7 +131,7 @@ Each task was committed atomically on `main`:
 4. **Task 4: document the additive claims field** - `a962eb3` (docs)
 5. **Task 5: two test additions (ollama multi-claim + pipeline per-claim gate)** - `298aff5` (test)
 
-**Plan metadata:** `<final commit>` (docs: complete quick task + STATE row)
+**Plan metadata:** `358743f` (docs: complete quick task + STATE row)
 
 ## Files Created/Modified
 
