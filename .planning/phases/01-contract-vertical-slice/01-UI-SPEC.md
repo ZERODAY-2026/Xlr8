@@ -1,10 +1,11 @@
 ---
 phase: "1"
 slug: "contract-vertical-slice"
-status: draft
+status: approved
 shadcn_initialized: false
 preset: none
 created: "2026-10-18"
+reviewed_at: "2026-10-18"
 ---
 
 # Phase 1 — UI Design Contract
@@ -44,6 +45,8 @@ Declared values (multiples of 4 only):
 | 3xl | 64px | Page-level spacing (drop zone vertical centering) |
 
 Exceptions: icon-only touch targets (file-picker button, remove-document button) are a minimum **44×44px** hit area even when the visible icon is 16–20px — WCAG 2.5.8 target size; justify: keyboard/trackpad demo before judges, no mobile breakpoint required this phase.
+
+Accessibility (checker D2 recommendation, accepted): both icon-only controls declare a visible-label fallback via `aria-label` — file-picker `aria-label="Upload agreement"`, remove-document `aria-label="Remove document"`.
 
 ---
 
@@ -97,21 +100,72 @@ Exactly two weights: **400 (regular) + 600 (semibold)**. Verbatim chunk text ren
 
 ## UI Considerations
 
-Applicable state considerations resolved: 9 covered, 0 backstop, 0 unresolved
+State-coverage probe (post-verification, 2026-10-18): **62 applicable considerations — 42 resolved (explicit), 20 resolved (backstop), 0 dismissed, 0 unresolved.** Element kinds confirmed by the user via propose-then-confirm; resolution strategy: explicit where this contract states the behavior, backstop (held-out visual UI-state test) elsewhere. Empty/error-state copy lives in the Copywriting Contract above — rows reference those rows rather than restating the copy.
 
-| Category | Element(s) | Status | Resolution / Reason |
-|----------|------------|--------|---------------------|
-| empty | list-collection | ✅ covered | Zero chunks → drop zone + "No document yet" empty-state copy from the Copywriting Contract |
-| empty | form | ✅ covered | No file chosen → CTA "Upload agreement" rendered disabled until a file is selected |
-| loading | form | ✅ covered | Upload in-flight → CTA disabled + relabelled "Processing…" + spinner + the verbatim loading copy; no skeleton needed (single POST, no streaming this phase) |
-| loading | list-collection | ✅ covered | Chunk list renders only after upload completes; previous list stays visible with a top progress bar if a second document replaces it |
-| error | form | ✅ covered | Each failure mode (unsupported / oversized / model failure) renders a destructive-red banner above the drop zone with problem + next action verbatim; never a crash (01-CONTEXT discretion: reject >20 MB or >~300 pages with a clear message) |
-| error | list-collection | ✅ covered | Upload replacing a document that then fails → old chunk list preserved, error banner shown, no data loss |
-| populated | list-collection | ✅ covered | Header "{filename} — {N} chunks"; each row = page chip (e.g. "p. 3") + full verbatim chunk text on a white card |
-| partial | form | ✅ covered | File selected but not submitted → CTA enabled, filename shown next to the chooser; Remove-document button hidden until a document exists |
-| overflow | list-collection | ✅ covered | Chunk list scrolls inside the main column (`max-height: calc(100vh - header)`, `overflow-y: auto`); header + drop zone stay fixed; no horizontal scroll at ≥1024px |
-| zero-one-many | list-collection | ✅ covered | "1 chunk" vs "N chunks" singular/plural in the header; one row and many rows use identical card spacing (md) |
-| long-text | static-content | ✅ covered | Chunk text wraps fully (no ellipsis, no clamp) — verbatim quotes must be judge-readable; page chip stays left-aligned and does not reflow |
+| Category | Element(s) | Status | Statement / Verification |
+|----------|------------|--------|--------------------------|
+| empty | E1 drop zone | ✅ resolved — explicit | Zero documents → drop zone renders the empty-state heading, body and privacy reassurance verbatim; it is the pre-upload visual anchor. |
+| loading | E1 drop zone | ✅ resolved — explicit | Upload in-flight → CTA disabled and relabelled "Processing…" with spinner and the verbatim loading copy; no skeleton (single POST, no streaming). |
+| error | E1 drop zone | ✅ resolved — explicit | Failure → destructive banner above the drop zone (one of the three verbatim error rows); drop zone stays usable for the retry the copy instructs. |
+| populated | E1 drop zone | ✅ resolved — backstop | { statement: "Post-upload the visual anchor hands off to the document header; the drop zone remains as the replacement affordance", verification: backstop } |
+| partial | E1 drop zone | ✅ resolved — explicit | File chosen, not submitted → CTA enabled, filename shown beside the chooser; remove-document control hidden. |
+| overflow | E1 drop zone | ✅ resolved — backstop | { statement: "Drop-zone content (long filename, copy lines) wraps inside the card — no horizontal overflow at ≥1024px", verification: backstop } |
+| zero-one-many | E1 drop zone | ✅ resolved — backstop | { statement: "Single-document session: a new upload replaces the previous document outright — no multi-document accumulation UI", verification: backstop } |
+| long-text | E1 drop zone | ✅ resolved — backstop | { statement: "Long filenames in the drop zone wrap rather than clip; fixed body copy never truncates", verification: backstop } |
+| loading | E2 CTA button | ✅ resolved — explicit | Disabled + relabelled "Processing…" + spinner for the whole in-flight period (verbatim loading row). |
+| error | E2 CTA button | ✅ resolved — explicit | Failure → CTA re-enabled for the retry the error copy instructs; messaging lives in the error banner, never in the button. |
+| long-text | E2 CTA button | ✅ resolved — backstop | { statement: "Fixed short label — never truncates or wraps mid-word inside the 44px target", verification: backstop } |
+| empty | E3 remove control + dialog | ✅ resolved — explicit | No document → control hidden entirely (contract: hidden until a document exists). |
+| loading | E3 remove control + dialog | ✅ resolved — backstop | { statement: "Remove disabled while an upload is in flight so a deletion cannot race the session swap", verification: backstop } |
+| error | E3 remove control + dialog | ✅ resolved — explicit | Failed replacement keeps the previous document intact → its remove control stays active; messaging stays in the error banner. |
+| populated | E3 remove control + dialog | ✅ resolved — explicit | Document exists → control shown; activation opens the confirm dialog with the verbatim destructive copy and "Remove document" / "Keep document" buttons. |
+| long-text | E3 remove control + dialog | ✅ resolved — backstop | { statement: "Filename inside the confirm dialog wraps without clipping the buttons", verification: backstop } |
+| empty | E4 document header | ✅ resolved — explicit | No document → header not rendered; zero-state carried by the drop zone (E1 empty row). |
+| loading | E4 document header | ✅ resolved — explicit | Header renders only after the upload completes — same gate as the chunk list; during replacement the previous header stays up. |
+| error | E4 document header | ✅ resolved — explicit | Failed replacement → header continues to show the previous document's filename and chunk count (old state preserved). |
+| populated | E4 document header | ✅ resolved — explicit | Verbatim success header "{filename} — {N} chunks" with the singular/plural rule; primary visual anchor post-upload. |
+| partial | E4 document header | ✅ resolved — explicit | File selected but not submitted → header unchanged (previous document or absent); updates only on upload success. |
+| overflow | E4 document header | ✅ resolved — backstop | { statement: "Long filename in the header ellipsizes in place; chunk-count text stays visible; no horizontal scroll", verification: backstop } |
+| zero-one-many | E4 document header | ✅ resolved — explicit | "1 chunk" singular vs "N chunks" plural (Copywriting plural rule). |
+| empty | E5 chunk list | ✅ resolved — explicit | Zero chunks → drop zone + empty-state copy (pre-upload), or the verbatim no-chunks message after extraction (E10) — never a bare blank list. |
+| loading | E5 chunk list | ✅ resolved — explicit | List renders only after the upload POST completes (no streaming, no skeleton); on replacement the previous list stays visible under a top progress bar. |
+| error | E5 chunk list | ✅ resolved — explicit | Failed replacement → previous chunk list fully preserved beside the error banner; no data loss. |
+| populated | E5 chunk list | ✅ resolved — explicit | Header + rows: white card per chunk, page chip left, full verbatim text. |
+| partial | E5 chunk list | ✅ resolved — explicit | All-or-nothing render — no half-populated list exists because there is no streaming this phase. |
+| overflow | E5 chunk list | ✅ resolved — explicit | max-height: calc(100vh - header); overflow-y: auto inside the main column; header and drop zone fixed; no horizontal scroll at ≥1024px. |
+| zero-one-many | E5 chunk list | ✅ resolved — explicit | Identical card spacing (md token) at one and many rows; header pluralises (E4). |
+| long-text | E5 chunk list | ✅ resolved — explicit | Chunk text wraps fully — no ellipsis, no clamp; page chip stays left and does not reflow. |
+| empty | E6 verbatim block | ✅ resolved — explicit | No card is rendered without chunks — empty handling belongs to E5/E10. |
+| loading | E6 verbatim block | ✅ resolved — explicit | Verbatim text appears only after extraction completes — no partial-quote state (no streaming this phase). |
+| error | E6 verbatim block | ✅ resolved — explicit | Extraction/model failure → no new cards; previous cards preserved (E5 error row). |
+| populated | E6 verbatim block | ✅ resolved — explicit | 16px / weight 400 / line-height 1.5 in the body font, full wrap. |
+| partial | E6 verbatim block | ✅ resolved — explicit | Never renders a truncated block — chunks render whole or not at all (all-or-nothing). |
+| overflow | E6 verbatim block | ✅ resolved — explicit | Wraps inside the card; the column scrolls (E5 overflow row) — no clipping. |
+| zero-one-many | E6 verbatim block | ✅ resolved — explicit | Fixed 16/400/1.5 treatment regardless of chunk count (typography contract). |
+| long-text | E6 verbatim block | ✅ resolved — explicit | Wraps fully — no ellipsis, no clamp; verbatim fidelity is the product's core value. |
+| empty | E7 error banner | ✅ resolved — explicit | No failure → banner absent; nothing else renders it. |
+| loading | E7 error banner | ✅ resolved — backstop | { statement: "A new attempt clears the previous error banner before the loading state appears", verification: backstop } |
+| error | E7 error banner | ✅ resolved — explicit | The banner IS the failure surface: destructive red above the drop zone, one of three verbatim problem + next-action messages. |
+| populated | E7 error banner | ✅ resolved — explicit | Banner coexists with the preserved chunk list — it never replaces or displaces populated content. |
+| partial | E7 error banner | ✅ resolved — backstop | { statement: "Banner persists while a file is still selected, clearing only on new selection or a retry", verification: backstop } |
+| overflow | E7 error banner | ✅ resolved — backstop | { statement: "Long error text wraps to multiple lines inside the banner — never clipped, no horizontal scroll", verification: backstop } |
+| zero-one-many | E7 error banner | ✅ resolved — backstop | { statement: "One banner at a time — the latest failure replaces an earlier banner rather than stacking", verification: backstop } |
+| overflow | E8 loading + progress | ✅ resolved — backstop | { statement: "Spinner, progress bar and loading copy stay inside their container at any width — no horizontal overflow", verification: backstop } |
+| long-text | E8 loading + progress | ✅ resolved — backstop | { statement: "Fixed loading copy wraps rather than truncates", verification: backstop } |
+| empty | E9 page chip | ✅ resolved — explicit | No chunks → no cards → no chips (rendered only as part of a populated row). |
+| loading | E9 page chip | ✅ resolved — explicit | Chips render together with their cards after extraction completes (no streaming). |
+| error | E9 page chip | ✅ resolved — explicit | Failed replacement → existing chips preserved with the old list; failure shown in the banner (E7). |
+| populated | E9 page chip | ✅ resolved — explicit | "p. {page}" in a 13px/600 label on chrome background #F1EDE5 with muted #5A6272 text — never the accent color. |
+| partial | E9 page chip | ✅ resolved — backstop | { statement: "A row without a page number cannot occur (page is a required chunk field); the chip area would stay blank without shifting the text", verification: backstop } |
+| overflow | E9 page chip | ✅ resolved — backstop | { statement: "Chip width accommodates up to four-digit page numbers without wrapping inside the chip", verification: backstop } |
+| zero-one-many | E9 page chip | ✅ resolved — backstop | { statement: "Chip format identical whether the document has one page or hundreds", verification: backstop } |
+| long-text | E9 page chip | ✅ resolved — explicit | Chip stays left-aligned and does not reflow while the text wraps (long-text row). |
+| empty | E10 no-chunks message | ✅ resolved — explicit | Zero extracted chunks → this verbatim message is what the user sees (the empty condition itself). |
+| loading | E10 no-chunks message | ✅ resolved — backstop | { statement: "During a re-upload the message hides while the loading state shows, returning only if extraction again yields zero chunks", verification: backstop } |
+| error | E10 no-chunks message | ✅ resolved — explicit | Message carries problem + next action ("scanned images → try a text-based PDF or a .txt file") — same pattern as the error banner. |
+| populated | E10 no-chunks message | ✅ resolved — backstop | { statement: "Message and populated chunk list are mutually exclusive — it shows only when the chunk count is zero", verification: backstop } |
+| overflow | E10 no-chunks message | ✅ resolved — backstop | { statement: "Message wraps within its container at any length — never clipped", verification: backstop } |
+| long-text | E10 no-chunks message | ✅ resolved — explicit | Fixed copy wraps in full; never truncated. |
 
 ---
 
@@ -126,12 +180,12 @@ Applicable state considerations resolved: 9 covered, 0 backstop, 0 unresolved
 
 ## Checker Sign-Off
 
-- [ ] Dimension 1 Copywriting: PASS
-- [ ] Dimension 2 Visuals: PASS
-- [ ] Dimension 3 Color: PASS
-- [ ] Dimension 4 Typography: PASS
-- [ ] Dimension 5 Spacing: PASS
-- [ ] Dimension 6 Registry Safety: PASS
-- [ ] Dimension 7 Inventory Provenance: PASS (section omitted — Tool: none)
+- [x] Dimension 1 Copywriting: PASS
+- [x] Dimension 2 Visuals: FLAG (non-blocking) — icon-only controls lacked a label fallback; accepted and folded in as the `aria-label` line in Spacing Scale above
+- [x] Dimension 3 Color: PASS
+- [x] Dimension 4 Typography: PASS
+- [x] Dimension 5 Spacing: PASS
+- [x] Dimension 6 Registry Safety: PASS
+- [x] Dimension 7 Inventory Provenance: PASS (section omitted — Tool: none)
 
-**Approval:** pending
+**Approval:** approved — gsd-ui-checker, 2026-10-18 (7/7 dimensions, 0 BLOCK, 1 FLAG accepted). Frontmatter `status: approved`.
