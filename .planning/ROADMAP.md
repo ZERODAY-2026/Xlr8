@@ -38,7 +38,12 @@ Four phases cover the whole day, reconciled 1:1 with the human working plan in `
   2. `node cli.js ask <doc> "<question>"` returns a plain-language answer with a verbatim quote that occurs in the document and names its page — and a paraphrased or fabricated quote is rejected and reported unverifiable
   3. Answers come from local Ollama (`gemma3n:e2b`) with retrieval embeddings from `embeddinggemma`, demonstrable with the machine offline
   4. During a full run, connection monitoring shows no socket other than `127.0.0.1:11434`
-**Plans**: TBD
+**Plans**: 3
+
+Plans:
+- [ ] 01-01-PLAN.md — Contract, fixtures, and page-aware pipeline core (verifier hard gate)
+- [ ] 01-02-PLAN.md — CLI tracer: local ask with verified verbatim citation, localhost-only proof
+- [ ] 01-03-PLAN.md — Express upload shell + chunk list with page numbers
 
 ### Phase 2: Scored Behaviour
 **Goal**: The end-to-end browser demo scores on rubric criteria 2 (grounding), 3 (uncertainty/refusal) and 4 (privacy) — every answer carries a verified quote and evidence tier, verdict questions are refused with escalation, and privacy is proven by a reproducible evidence report.
