@@ -275,10 +275,13 @@ async function ask(question) {
   askBtn.disabled = false;
   busy = false;
 
-  if (!res || !res.ok || body.unverifiable || !body.answer) {
-    // Error and unverifiable-quote paths both land in the banner; the verified
-    // quote is the only quote this UI will ever render.
-    showBanner((body && (body.error || body.reason)) || ERR_MODEL);
+  if (!res || !res.ok) {
+    showBanner((body && body.error) || ERR_MODEL);
+    return;
+  }
+  if (body.unverifiable || !body.answer) {
+    // Unverifiable answer: show in the answer panel with a tier badge, not the banner.
+    renderUnverifiable(body.reason || 'quote not found in source');
     return;
   }
   answerText.textContent = body.answer; // plain text only — no HTML from the model
@@ -293,9 +296,25 @@ function copyQuote(btn, text) {
     btn.querySelector('svg').innerHTML = '<path d="M20 6 9 17l-5-5" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>';
     setTimeout(() => {
       btn.classList.remove('copied');
-      btn.querySelector('svg').innerHTML = '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>';
+      btn.querySelector('svg').innerHTML = '<rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2-2v1"></path>';
     }, 1200);
   }).catch(() => {});
+}
+
+function renderUnverifiable(reason) {
+  answerClaims.replaceChildren();
+  const block = document.createElement('div');
+  block.className = 'answer-unverifiable';
+  const badge = document.createElement('span');
+  badge.className = 'tier-badge';
+  badge.textContent = 'not_in_document';
+  const msg = document.createElement('p');
+  msg.style.margin = '0';
+  msg.style.lineHeight = '1.4';
+  msg.textContent = 'The document does not answer this question. ' + reason;
+  block.append(badge, msg);
+  answerClaims.append(block);
+  answer.hidden = false;
 }
 
 // One block per verified claim: page chip + verbatim quote (+ the claim's one-liner when
@@ -310,6 +329,11 @@ function renderClaims(claims) {
     chip.textContent = `p. ${c.page}`; // same chrome page-chip style as the list
     const col = document.createElement('div');
     col.className = 'answer-claim-body';
+    // Tier badge
+    const tier = document.createElement('span');
+    tier.className = 'claim-tier stated';
+    tier.textContent = 'stated';
+    col.append(tier);
     const quote = document.createElement('p');
     quote.className = 'chunk-text';
     quote.textContent = c.quote;
@@ -325,7 +349,7 @@ function renderClaims(claims) {
     copyBtn.type = 'button';
     copyBtn.className = 'copy-btn';
     copyBtn.setAttribute('aria-label', 'Copy quote to clipboard');
-    copyBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+    copyBtn.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2-2v1"></path></svg>';
     copyBtn.addEventListener('click', () => copyQuote(copyBtn, c.quote));
     col.append(copyBtn);
     block.append(chip, col);
