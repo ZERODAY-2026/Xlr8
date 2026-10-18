@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LegalTriage — on-device legal document explainer</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="page">
+    <!-- E7: the banner IS the failure surface — destructive, above the drop zone, one at a time -->
+    <div id="banner" class="banner" role="alert" hidden>
+      <svg class="banner-icon" width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <path d="M10 2.5 18.5 17.5H1.5L10 2.5Z" stroke-linejoin="round"/>
+        <path d="M10 8v4" stroke-linecap="round"/>
+        <circle cx="10" cy="14.75" r="0.75" fill="currentColor" stroke="none"/>
+      </svg>
+      <span id="banner-text"></span>
+    </div>
+
+    <!-- E1: the pre-upload visual anchor -->
+    <section id="dropzone" class="card dropzone">
+      <h1 class="heading">No document yet</h1>
+      <p class="body">Drop a PDF or TXT file here, or choose one from your computer. Files never leave this machine.</p>
+      <p class="privacy">Processed entirely on this machine. No document content is sent over the network.</p>
+      <div class="chooser-row">
+        <button type="button" id="cta" class="cta" aria-label="Upload agreement">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+            <path d="M8 11V2.5" stroke-linecap="round"/>
+            <path d="M4.5 6 8 2.5 11.5 6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2.5 10.5v2a1 1 0 0 0 1 1h9a1 1 0 0 0 1-1v-2" stroke-linecap="round"/>
+          </svg>
+          <span id="cta-label">Upload agreement</span>
+          <span id="cta-spinner" class="spinner" aria-hidden="true" hidden></span>
+        </button>
+        <span id="chosen" class="chosen" hidden></span>
+        <input type="file" id="file-input" accept=".pdf,.txt,application/pdf,text/plain" hidden>
+      </div>
+      <p id="loading-copy" class="loading" hidden></p>
+      <div id="progress" class="progress" hidden><div class="progress-bar"></div></div>
+    </section>
+
+    <!-- E4: document header, rendered only after a successful upload -->
+    <header id="doc-header" class="doc-header" hidden>
+      <h2 id="doc-title" class="heading"></h2>
+      <button type="button" id="remove-btn" class="icon-btn" aria-label="Remove document" hidden>
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M3.5 5.5h13" stroke-linecap="round"/>
+          <path d="M8 5.5V4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v1.5" stroke-linecap="round"/>
+          <path d="M5.5 5.5 6.2 16a1 1 0 0 0 1 .9h5.6a1 1 0 0 0 1-.9l.7-10.5" stroke-linecap="round"/>
+          <path d="M8.5 8.5v5M11.5 8.5v5" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </header>
+
+    <!-- E5/E6/E9: white card per chunk, chrome page chip left, full verbatim text -->
+    <main id="list" class="chunk-list" hidden></main>
+
+    <!-- E10: verbatim no-chunks message -->
+    <p id="no-chunks" class="no-chunks" hidden>No text chunks were extracted. The file may be scanned images — try a text-based PDF or a .txt file.</p>
+  </div>
+
+  <!-- E3 populated: verbatim destructive confirmation -->
+  <dialog id="remove-dialog" class="dialog">
+    <p class="body">Remove <span id="dialog-filename"></span>? Its extracted chunks will be deleted from this session. This cannot be undone.</p>
+    <div class="dialog-actions">
+      <button type="button" id="confirm-remove" class="btn-destructive">Remove document</button>
+      <button type="button" id="cancel-remove" class="btn-neutral">Keep document</button>
+    </div>
+  </dialog>
+
+  <script src="app.js"></script>
+</body>
+</html>

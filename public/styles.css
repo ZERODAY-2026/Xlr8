@@ -1,0 +1,303 @@
+/* public/styles.css — 01-UI-SPEC design contract: parchment palette, 4px spacing scale,
+   exactly two weights (400/600), system font stack, chrome page chips. Accent #295499
+   is reserved for exactly the CTA, the active state and the focus ring — nothing else. */
+:root {
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-2xl: 48px;
+  --space-3xl: 64px;
+  --bg: #FAF8F4;
+  --card: #FFFFFF;
+  --hairline: #E4DED2;
+  --chrome: #F1EDE5;
+  --text: #1C2430;
+  --muted: #5A6272;
+  --destructive: #B42318;
+  --accent: #295499;
+}
+
+* { box-sizing: border-box; }
+
+html, body { margin: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.page {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: var(--space-2xl) var(--space-md);
+}
+
+.heading {
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.2;
+  margin: 0 0 var(--space-md);
+}
+
+.body { margin: 0 0 var(--space-md); overflow-wrap: anywhere; }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  padding: var(--space-lg);
+}
+
+/* E1: the pre-upload visual anchor — centered, largest contrast */
+.dropzone {
+  text-align: center;
+  padding: var(--space-3xl) var(--space-lg);
+}
+
+.dropzone.dragover { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+.privacy {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  margin: 0 0 var(--space-lg);
+  overflow-wrap: anywhere;
+}
+
+.chooser-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  flex-wrap: wrap;
+}
+
+/* Accent #295499 use 1 of 3: the primary CTA */
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  min-height: 44px;
+  padding: 0 var(--space-md);
+  background: var(--accent);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.cta:disabled { opacity: 0.7; cursor: progress; }
+
+/* Accent #295499 use 3 of 3: the keyboard focus ring */
+.cta:focus-visible,
+.icon-btn:focus-visible,
+.btn-destructive:focus-visible,
+.btn-neutral:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  border-top-color: #FFFFFF;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.chosen {
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+  max-width: 60%;
+  text-align: left;
+}
+
+.loading {
+  color: var(--muted);
+  margin: var(--space-md) 0 0;
+  overflow-wrap: anywhere;
+}
+
+/* E8: indeterminate top progress bar for a replacement upload */
+.progress {
+  height: 4px;
+  margin-top: var(--space-md);
+  background: var(--chrome);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+/* Accent #295499 use 2 of 3: the active (in-flight) state */
+.progress-bar {
+  height: 100%;
+  width: 40%;
+  background: var(--accent);
+  animation: indeterminate 1.2s ease-in-out infinite;
+}
+
+@keyframes indeterminate {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}
+
+/* E7: the banner IS the failure surface — destructive red above the drop zone */
+.banner {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  background: var(--destructive);
+  color: #FFFFFF;
+  border-radius: 8px;
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+  overflow-wrap: anywhere;
+}
+
+.banner[hidden] { display: none; }
+.banner-icon { flex: none; margin-top: 2px; }
+
+/* E4: the primary visual anchor post-upload; long filenames ellipsize in place,
+   the chunk-count text stays visible, no horizontal scroll */
+.doc-header {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  margin: var(--space-xl) 0 var(--space-md);
+}
+
+.doc-header .heading {
+  flex: 1;
+  min-width: 0;
+  margin: 0;
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.doc-name {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  min-width: 0;
+}
+
+.doc-count { flex: none; white-space: nowrap; }
+
+.icon-btn {
+  flex: none;
+  min-width: 44px;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  color: var(--muted);
+  cursor: pointer;
+}
+
+.icon-btn:hover { color: var(--destructive); }
+.icon-btn:disabled { opacity: 0.5; cursor: default; }
+
+/* E5: the list column scrolls vertically only; identical md spacing at one and many rows */
+.chunk-list {
+  max-height: calc(100vh - 240px);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.chunk-card {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  background: var(--card);
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+/* E9: chrome page chip — 13/600, #F1EDE5 bg, #5A6272 text, never the accent color.
+   Stays left and does not reflow while the text wraps; four-digit pages fit. */
+.page-chip {
+  flex: none;
+  background: var(--chrome);
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  border-radius: 4px;
+  padding: 2px var(--space-sm);
+  white-space: nowrap;
+}
+
+/* E6: verbatim text 16/400/1.5, wraps fully — no ellipsis, no clamp */
+.chunk-text {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+/* E10: the verbatim no-chunks message carries problem + next action */
+.no-chunks {
+  background: var(--card);
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  padding: var(--space-md);
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+
+/* E3: destructive confirmation dialog */
+.dialog {
+  max-width: 480px;
+  width: calc(100% - 64px);
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--hairline);
+  border-radius: 8px;
+  padding: var(--space-lg);
+}
+
+.dialog::backdrop { background: rgba(28, 36, 48, 0.4); }
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+  margin-top: var(--space-md);
+}
+
+.btn-destructive,
+.btn-neutral {
+  min-height: 44px;
+  padding: 0 var(--space-md);
+  border: none;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.btn-destructive { background: var(--destructive); color: #FFFFFF; }
+.btn-neutral { background: var(--chrome); color: var(--text); }
