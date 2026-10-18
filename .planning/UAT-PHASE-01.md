@@ -1,7 +1,7 @@
 # UAT: Phase 01 — Contract + Vertical Slice
 
 **Mode:** end-of-phase (batched live check)
-**Status:** pending — run the demo below, then answer the question in session.
+**Status:** verified — live demo passed 2026-10-18 (upload → chunk list → CLI Q&A verbatim quote → server /api/ask proven live; offline check not exercised, backstopped by the verifier's socket sampler `nonloopback=0`).
 **Context:** verifier proved everything observable offline (21/21 tests, live CLI ask + quote gate re-verified, loopback-only sampler, synthesized 2-page PDF page-citation proof). What remains is the browser + offline run only you can do. The demo **is** the UAT.
 
 ## E1–E10 — the demo script (≈5 min)
